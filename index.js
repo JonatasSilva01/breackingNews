@@ -1,9 +1,11 @@
-const express = require("express");
-const useRoute = require("./src/routes/user.route.js");
-const conectDatabase = require("./src/database/db.js");
+import express from "express";
+import useRoute from "./src/routes/user.route.js";
+import conectDatabase from "./src/database/db.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 conectDatabase();
 // está apto para ler arquivos #json#

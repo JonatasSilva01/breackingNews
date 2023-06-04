@@ -1,15 +1,16 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const conectDatabase = () => {
   console.log("Wait connecting to the database");
 
+  // conecxão com banco de dados MongoDb utilizando Mongoose
   mongoose
-    .connect(
-      "mongodb+srv://root:root@cluster0.gd8ajlr.mongodb.net/?retryWrites=true&w=majority",
-      { useNewUrlParser: true, useUnifiedTopology: true }
-    )
+    .connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     .then(() => console.log("MongoDb Atalas connected"))
     .catch((error) => console.log(error));
 };
 
-module.exports = conectDatabase;
+export default conectDatabase;
