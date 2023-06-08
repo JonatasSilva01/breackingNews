@@ -12,7 +12,7 @@ const create = async (req, res) => {
     }
 
     // espera a resposta do moongose para fazer a criação dos dados em json;
-    const user = await userService.createService(req.body);
+    const user = await userService.createService(req.body).catch((err) => console.log(err.message));
 
     // se não tiver usuario ira retornar um 401
     if (!user) {

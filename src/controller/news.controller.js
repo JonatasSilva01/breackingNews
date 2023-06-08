@@ -1,28 +1,39 @@
-import { createService } from "../services/news.service";
+import { ObjectId } from "mongoose";
+import { createService, findAllService } from "../services/news.service.js";
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
 
-    if (!title || !text || !banner)
-      res.status(400).send({ message: "submit all fields for registration" });
+    if (!title || !banner || !text) {
+      res.status(400).send({
+        message: "Submit all fields for registration",
+      });
+    }
 
     await createService({
-        title,
-        text,
-        banner,
-        id: "objectidfake1",
-    })
+      title,
+      text,
+      banner,
+      user: { _id: "648009b37d10d8819deb810a" },
+    }).catch((err) => console.log(err.message));
 
-    res.status(201).send("Ok create");
+    res.send(201);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
 
-const findAll = (req, res) => {
-  const news = [];
-  res.send(news);
-};
+export const findAll = async (req, res) => {
+  try {
+    const news = await findAllService();
 
-export { create, findAll };
+    if (news.length === 0)
+      return res.status(400).send({ message: "No registered users" });
+
+    res.send(news);
+    
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
