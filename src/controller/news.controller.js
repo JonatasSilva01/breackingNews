@@ -1,8 +1,23 @@
-import { ObjectId } from "mongoose";
 import { createService, findAllService } from "../services/news.service.js";
 
 export const create = async (req, res) => {
   try {
+    const { authorization } = req.headers;
+    
+    if(!authorization) send(401);
+
+    // aqui estou pegando as palavras chaves com metodo split(" ") separando eles com espaço;
+    const parts = authorization.split(" "); // [ 'Bearer', 'TOKEN' ]
+
+    if(parts.length !== 2) res.send(401); // se tiver juntos as palavras chaves não vai funcionar
+
+    // aqui estou fazendo uma desconstrução de array [ 'Bearer', 'TOKEN' ]
+    const [schema, token] = parts;
+
+    if(schema !== "Bearer") res.send(401); // acesso negado!
+ 
+    
+
     const { title, text, banner } = req.body;
 
     if (!title || !banner || !text) {
@@ -32,7 +47,6 @@ export const findAll = async (req, res) => {
       return res.status(400).send({ message: "No registered users" });
 
     res.send(news);
-    
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
