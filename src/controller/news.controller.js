@@ -1,6 +1,7 @@
 import {
   createService,
   findAllService,
+  topNewsService,
   contNews,
 } from "../services/news.service.js";
 
@@ -97,6 +98,34 @@ export const findAll = async (req, res) => {
         userName: newsItem.user.username,
         userAvatar: newsItem.user.avatar,
       })),
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+// aqui ele vai mandar sempre a utima noticia do dia
+export const topNews = async (req, res) => {
+  try {
+    // toda vez que for fazer uma function async tem que colocar o await
+    // no service quando ele for esperar algo do banco de dados
+    const news = await topNewsService();
+
+    if (!news)
+      res.status(400).send({ message: "There is not registered post" });
+
+    res.send({
+      news: {
+        id: news._id,
+        title: news.title,
+        text: news.text,
+        banner: news.banner,
+        likes: news.likes,
+        comments: news.comment,
+        name: news.user.name,
+        userName: news.user.username,
+        userAvatar: news.user.avatar,
+      },
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
