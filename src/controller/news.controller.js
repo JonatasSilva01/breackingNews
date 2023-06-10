@@ -3,8 +3,10 @@ import {
   findAllService,
   topNewsService,
   contNews,
+  findByIdService,
 } from "../services/news.service.js";
 
+// essa função cria uma nova postagem
 export const create = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
@@ -36,6 +38,7 @@ export const create = async (req, res) => {
   }
 };
 
+// buscando os dados
 export const findAll = async (req, res) => {
   try {
     // posso criar variaveis dentro das querys no HTTP
@@ -129,5 +132,33 @@ export const topNews = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
+  }
+};
+
+// essa função pega a postagem por Id
+export const findById = async (req, res) => {
+  try {
+    const { id } = req.params; // "/:id" -> localhost:3000/news/{id} "/:banana" -> fica em rotas -> banana: um valor qualquer
+
+    console.log(req.params);
+
+    const news = await findByIdService(id);
+
+    // enviando uma resposta para meu cliente como json
+    return res.send({
+      news: {
+        id: news._id,
+        title: news.title,
+        text: news.text,
+        banner: news.banner,
+        likes: news.likes,
+        comments: news.comment,
+        name: news.user.name,
+        userName: news.user.username,
+        userAvatar: news.user.avatar,
+      },
+    });
+  } catch (error) {
+    res.status(500).send({ message: message.error });
   }
 };

@@ -10,3 +10,5 @@ export const contNews = () => News.countDocuments();
 // ele vai trazer sempre o utimo id a ser criado
 export const topNewsService = () =>
   News.findOne().sort({ _id: -1 }).populate("user");
+
+export const findByIdService = (id) => News.findById(id).populate("user");

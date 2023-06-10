@@ -11,7 +11,7 @@ export const authMiddleware = (req, res, next) => {
     if (!authorization) send(401);
 
     // aqui estou pegando as palavras chaves com metodo split(" ") separando eles com espaço;
-    const parts = authorization.split(" "); // [ 'Bearer', 'TOKEN' ]
+    const parts = authorization.split(" "); // resultado do console.log [ 'Bearer', 'TOKEN' ]
 
     if (parts.length !== 2) res.send(401);
 
