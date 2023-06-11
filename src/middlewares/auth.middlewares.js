@@ -24,11 +24,15 @@ export const authMiddleware = (req, res, next) => {
     jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
       if (error) res.status(401).send({ message: "token has expired" });
 
+      // aqui ele espera a respota do banco de dados e pega o id e verifica se o id é o mesmo
       const user = await userService.findByIdService(decoded.id);
 
       if (!user || !user.id) res.status(401).send({ message: "invalid Id" });
 
+      // quando ele passar por todas as validações ele vai retornar um user.id valido e colocar na variavel
+      // por ex: req.banana = user.id
       req.userId = user.id;
+
       return next();
     });
   } catch (error) {
