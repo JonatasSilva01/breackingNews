@@ -4,6 +4,7 @@ import {
   topNewsService,
   contNews,
   findByIdService,
+  searchByTitleService,
 } from "../services/news.service.js";
 
 // essa função cria uma nova postagem
@@ -158,6 +159,36 @@ export const findById = async (req, res) => {
         userAvatar: news.user.avatar,
       },
     });
+  } catch (error) {
+    res.status(500).send({ message: message.error });
+  }
+};
+
+export const searchByTitle = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    const news = await searchByTitleService(title);
+
+    if (news.length === 0) res
+      .status(400)
+      .send({ message: "There are no posts with this title" });
+
+    // como news retorna um array eu fiz um retorno desses dados com map e não de um objeto
+    res.send({
+      news: news.map((newsItem) => ({
+        id: newsItem._id,
+        title: newsItem.title,
+        text: newsItem.text,
+        banner: newsItem.banner,
+        likes: newsItem.likes,
+        comments: newsItem.comment,
+        name: newsItem.user.name,
+        userName: newsItem.user.username,
+        userAvatar: newsItem.user.avatar,
+      })),
+    })
+    
   } catch (error) {
     res.status(500).send({ message: message.error });
   }
