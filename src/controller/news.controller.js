@@ -8,6 +8,8 @@ import {
   byUserService,
   updateService,
   deleteIdService,
+  likeNewsService,
+  deleteLikeNewsService,
 } from "../services/news.service.js";
 
 // essa função cria uma nova postagem
@@ -251,5 +253,24 @@ export const deleteId = async (req, res) => {
 
   } catch (error) {
     res.status(500).send({ message: error.message });
+  }
+};
+
+// dando like na postagem
+export const likeNews = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    const newsLiked = await likeNewsService(id, userId);
+
+    if (!newsLiked) {
+      await deleteLikeNewsService(id, userId);
+      return res.status(200).send({ message: "Like successfully removed" });
+    }
+
+    res.send({ message: "Like done successfully" });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
 };

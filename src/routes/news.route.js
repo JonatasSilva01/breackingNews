@@ -7,7 +7,8 @@ import {
   searchByTitle,
   byUser,
   update,
-  deleteId
+  deleteId,
+  likeNews,
 } from "../controller/news.controller.js";
 import { authMiddleware } from "../middlewares/auth.middlewares.js";
 import { validPostNews } from "../middlewares/global.middlewares.js";
@@ -34,5 +35,8 @@ router.patch("/:id", authMiddleware, validPostNews, update);
 
 // deletando post
 router.delete("/:id", authMiddleware, deleteId);
+
+// dando like no post
+router.patch("/like/:id", authMiddleware, likeNews);
 
 export default router;

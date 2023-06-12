@@ -1,7 +1,9 @@
 import News from "../models/News.js";
 
+// criando uma noticia
 export const createService = (body) => News.create(body);
 
+// pegando todas as noticias
 export const findAllService = (offset, limit) =>
   // populate = relashion ship
   News.find().sort({ _id: -1 }).skip(offset).limit(limit).populate("user");
@@ -12,8 +14,7 @@ export const contNews = () => News.countDocuments();
 export const topNewsService = () =>
   News.findOne().sort({ _id: -1 }).populate("user");
 
-
-  export const findByIdService = (id) => News.findById(id).populate("user");
+export const findByIdService = (id) => News.findById(id).populate("user");
 
 // aplicar um $regex = comando do mongo db e $options tbm
 export const searchByTitleService = (title) =>
@@ -35,6 +36,17 @@ export const updateService = (id, title, text, banner) =>
     }
   );
 
-
 // deletando um usuario no mongoDb
 export const deleteIdService = (id) => News.findByIdAndDelete({ _id: id });
+
+// atualizando o array para que ele coloque o like de um usuario cadastrado
+export const likeNewsService = (idNews, userId) =>
+  News.findOneAndUpdate(
+    // eu verifico se o id é o mesmo porque se for ele não coloca o like simplesmente mantem o like ali
+    { _id: idNews, "likes.userId": { $nin: [userId] } },
+    { $push: { likes: { userId, created: new Date() } } }
+  );
+
+// caso ele clique no like novamente esse like que ja estava ali vai ser removido
+export const deleteLikeNewsService = (idNews, userId) =>
+  News.findOneAndUpdate({ _id: idNews }, { $pull: { likes: { userId } } });
