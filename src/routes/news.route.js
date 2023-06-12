@@ -5,7 +5,7 @@ import {
   findById,
   topNews,
   searchByTitle,
-  byUser,
+  byUser
 } from "../controller/news.controller.js";
 import { authMiddleware } from "../middlewares/auth.middlewares.js";
 
@@ -24,5 +24,6 @@ router.get("/byUser", authMiddleware, byUser);
 
 // passando um parametro(":id") para pegar o valor no controller ex: req.params
 router.get("/:id", authMiddleware, findById);
+
 
 export default router;

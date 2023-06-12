@@ -5,7 +5,7 @@ import {
   contNews,
   findByIdService,
   searchByTitleService,
-  byUserService,
+  byUserService
 } from "../services/news.service.js";
 
 // essa função cria uma nova postagem
