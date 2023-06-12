@@ -6,7 +6,8 @@ import {
   topNews,
   searchByTitle,
   byUser,
-  update
+  update,
+  deleteId
 } from "../controller/news.controller.js";
 import { authMiddleware } from "../middlewares/auth.middlewares.js";
 import { validPostNews } from "../middlewares/global.middlewares.js";
@@ -16,6 +17,7 @@ const router = Router();
 router.post("/", authMiddleware, create);
 router.get("/", findAll);
 router.get("/top", topNews);
+
 // aqui eu declaro o search e faço as pesquisa por query com
 // a var=title que posso pesquisar qualquer noticia pelo titulo
 router.get("/search", searchByTitle);
@@ -29,5 +31,8 @@ router.get("/:id", authMiddleware, findById);
 
 // atualizando um dado
 router.patch("/:id", authMiddleware, validPostNews, update);
+
+// deletando post
+router.delete("/:id", authMiddleware, deleteId);
 
 export default router;

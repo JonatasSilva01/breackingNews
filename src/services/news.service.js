@@ -34,3 +34,5 @@ export const updateService = (id, title, text, banner) =>
       rawResult: true,
     }
   );
+
+export const deleteIdService = (id) => News.findByIdAndDelete({ _id: id });

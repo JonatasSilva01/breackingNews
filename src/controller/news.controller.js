@@ -7,6 +7,7 @@ import {
   searchByTitleService,
   byUserService,
   updateService,
+  deleteIdService,
 } from "../services/news.service.js";
 
 // essa função cria uma nova postagem
@@ -166,6 +167,7 @@ export const findById = async (req, res) => {
   }
 };
 
+// aqui ele faz a pesquisa pelo titulo
 export const searchByTitle = async (req, res) => {
   try {
     const { title } = req.query;
@@ -232,3 +234,22 @@ export const update = async (req, res) => {
   }
 };
 
+// deletando um post
+export const deleteId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await findByIdService(id);
+
+    // aqui ele verifica que se o id do usuario é o mesmo do que está logado
+    if (String(post.user.id) !== req.userId)
+      res.status(400).send({ message: "you cat't delete this post" });
+
+    await deleteIdService(id);
+
+    res.status(200).send({ message: "this post will delete" });
+
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
