@@ -242,7 +242,7 @@ export const deleteId = async (req, res) => {
     const post = await findByIdService(id);
 
     // aqui ele verifica que se o id do usuario é o mesmo do que está logado
-    if (String(post.user.id) !== req.userId)
+    if (String(post.user._id) !== req.userId)
       res.status(400).send({ message: "you cat't delete this post" });
 
     await deleteIdService(id);

@@ -46,7 +46,7 @@ export const validPostNews = async (req, res, next) => {
 
     const post = await findByIdService(id);
 
-    if (String(post.user.id) !== req.userId)
+    if (String(post.user._id) !== req.userId)
       res.status(400).send({ message: "token é invalido" });
 
     next();

@@ -35,4 +35,6 @@ export const updateService = (id, title, text, banner) =>
     }
   );
 
+
+// deletando um usuario no mongoDb
 export const deleteIdService = (id) => News.findByIdAndDelete({ _id: id });
