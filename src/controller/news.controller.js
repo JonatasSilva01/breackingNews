@@ -194,6 +194,7 @@ export const searchByTitle = async (req, res) => {
   }
 };
 
+// aqui nesse codigo ele retora todos os posts que ele enviou
 export const byUser = async (req, res) => {
   try {
     const id = req.userId;
@@ -217,6 +218,7 @@ export const byUser = async (req, res) => {
   }
 };
 
+// aqui eu consigo atualizar o dado
 export const update = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
