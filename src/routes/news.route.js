@@ -9,6 +9,7 @@ import {
   update
 } from "../controller/news.controller.js";
 import { authMiddleware } from "../middlewares/auth.middlewares.js";
+import { validPostNews } from "../middlewares/global.middlewares.js";
 
 const router = Router();
 
@@ -27,6 +28,6 @@ router.get("/byUser", authMiddleware, byUser);
 router.get("/:id", authMiddleware, findById);
 
 // atualizando um dado
-router.patch("/:id", authMiddleware, update);
+router.patch("/:id", authMiddleware, validPostNews, update);
 
 export default router;

@@ -222,20 +222,6 @@ export const update = async (req, res) => {
     const { title, text, banner } = req.body;
     const { id } = req.params;
 
-    if (!title && !banner && !text) {
-      res.status(400).send({
-        message: "Submit at least one field to update the News",
-      });
-    }
-
-    const news = await findByIdService(id);
-
-    if (String(news.user._id) !== req.userId) {
-      return res.status(400).send({
-        message: "You didn't update this News",
-      });
-    }
-
     await updateService(id, title, text, banner);
 
     return res.send({ message: "News successfully updated!" });
