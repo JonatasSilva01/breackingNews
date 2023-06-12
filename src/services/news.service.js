@@ -24,3 +24,13 @@ export const searchByTitleService = (title) =>
 // aqui ele vai consultar o Id do usuario e trazer com ele sempre a utima postagem dele
 export const byUserService = (id) =>
   News.find({ user: id }).sort({ _id: -1 }).populate("user");
+
+// atualizado um dado no banco de dados
+export const updateService = (id, title, text, banner) =>
+  News.findOneAndUpdate(
+    { _id: id },
+    { title, text, banner },
+    {
+      rawResult: true,
+    }
+  );
