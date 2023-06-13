@@ -9,6 +9,8 @@ import {
   update,
   deleteId,
   likeNews,
+  commentAdd,
+  removedComment,
 } from "../controller/news.controller.js";
 import { authMiddleware } from "../middlewares/auth.middlewares.js";
 import { validPostNews } from "../middlewares/global.middlewares.js";
@@ -38,5 +40,11 @@ router.delete("/:id", authMiddleware, deleteId);
 
 // dando like no post
 router.patch("/like/:id", authMiddleware, likeNews);
+
+// fazendo comentarios
+router.patch("/comment/:id", authMiddleware, commentAdd);
+
+// removendo um comentario
+router.patch("/comment/:idNews/:idComment", authMiddleware, removedComment);
 
 export default router;

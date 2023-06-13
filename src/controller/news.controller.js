@@ -10,6 +10,8 @@ import {
   deleteIdService,
   likeNewsService,
   deleteLikeNewsService,
+  addCommentService,
+  removedCommentService,
 } from "../services/news.service.js";
 
 // essa função cria uma nova postagem
@@ -250,7 +252,6 @@ export const deleteId = async (req, res) => {
     await deleteIdService(id);
 
     res.status(200).send({ message: "this post will delete" });
-
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -272,5 +273,52 @@ export const likeNews = async (req, res) => {
     res.send({ message: "Like done successfully" });
   } catch (err) {
     res.status(500).send({ message: err.message });
+  }
+};
+
+// fazendo comentarios
+export const commentAdd = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+    const { comment } = req.body;
+
+    if (!comment)
+      res.status(400).send({ message: "Write a message to comment" });
+
+    await addCommentService(id, comment, userId);
+
+    res.send({ message: "comentario feito com sucesso!" });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+// removendo commentarios
+export const removedComment = async (req, res) => {
+  try {
+    const { idNews, idComment } = req.params;
+    const userId = req.userId;
+
+    const commentRemoved = await removedCommentService(
+      idNews,
+      idComment,
+      userId
+    );
+
+    const commentFinder = commentRemoved.comment.find(
+      (comment) => comment.idComment === idComment
+    );
+
+    if (!commentFinder)
+      return res.status(404).send({ message: "Comment not found" });
+
+    if (commentFinder.userId !== userId)
+      res.status(400).send({ message: "you can't not delete comment" });
+
+
+    res.send({ message: "comentario removido com sucesso!" });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
   }
 };

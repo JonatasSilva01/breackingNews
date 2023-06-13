@@ -50,3 +50,33 @@ export const likeNewsService = (idNews, userId) =>
 // caso ele clique no like novamente esse like que ja estava ali vai ser removido
 export const deleteLikeNewsService = (idNews, userId) =>
   News.findOneAndUpdate({ _id: idNews }, { $pull: { likes: { userId } } });
+
+// adicionando comentarios aula 29
+
+export const addCommentService = (idNews, comment, userId) => {
+  let idComment = Math.floor(Date.now() * Math.random()).toString(36);
+
+  return News.findOneAndUpdate(
+    { _id: idNews },
+    {
+      $push: {
+        comment: { idComment, userId, comment, createdAt: new Date() },
+      },
+    }
+  );
+};
+
+
+
+export const removedCommentService = (idNews, idComment, userId) =>
+  News.findOneAndUpdate(
+    { _id: idNews },
+    {
+      $pull: {
+        comment: {
+          idComment,
+          userId,
+        }
+      },
+    }
+  );
