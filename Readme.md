@@ -15,5 +15,5 @@
     5° configurar ".env"
     6° fazer seu banco de dados no MongoDB atalas e configurar seu JWT
     7° npm run dev pra rodar com o mongoose ou npm start
-
-    ![image](https://github.com/JonatasSilva01/breackingNews/assets/62606709/872d19ac-f9db-414a-8d2b-22844626be8f)
+    
+   ![image](https://github.com/JonatasSilva01/breackingNews/assets/62606709/872d19ac-f9db-414a-8d2b-22844626be8f)
